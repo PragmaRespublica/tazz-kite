@@ -1,0 +1,37 @@
+name: Mise à jour METAR (vent réel)
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # toutes les 30 minutes
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: metar
+  cancel-in-progress: true
+
+jobs:
+  metar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Récupérer les METAR
+        run: |
+          curl -sf "https://aviationweather.gov/api/data/metar?ids=LFML,LFMI,LFTH,LFMQ&format=json" -o /tmp/metar.json
+          python3 -c "import json; d=json.load(open('/tmp/metar.json')); assert isinstance(d,list) and d, 'JSON invalide'"
+          cp /tmp/metar.json data/metar.json
+
+      - name: Commit si changement
+        run: |
+          git config user.name "tazz-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/metar.json
+          if git diff --cached --quiet; then
+            echo "Pas de changement"
+          else
+            git commit -m "🌬️ METAR $(date -u +'%Y-%m-%d %H:%M') UTC"
+            git push
+          fi

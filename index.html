@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAZZ KITE 🌪️ — Vent & spots autour de Marseille</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌪️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sea:#3ecfd5; --sea-deep:#12a3b4; --sky:#bfeff5; --sand:#fff8ec;
+  --ink:#17323a; --ink-soft:#4a6a72; --card:#ffffff;
+  --lv0:#e8eef0; --lvdir:#d3e6ec; --lv1:#ffd93d; --lv2:#8fdf6a; --lv3:#00b273; --lv4:#ff5f5f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Fredoka',system-ui,sans-serif;background:linear-gradient(180deg,var(--sky) 0%,var(--sea) 55%,var(--sea-deep) 100%);min-height:100vh;color:var(--ink)}
+.wrap{max-width:1180px;margin:0 auto;padding:16px}
+
+/* ---------- header ---------- */
+header{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:18px 6px 8px}
+.mascot{width:130px;height:130px;flex:0 0 auto;filter:drop-shadow(0 6px 10px rgba(0,40,60,.25));animation:bob 3.5s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(2deg)}}
+h1{font-size:clamp(2rem,6vw,3.2rem);font-weight:700;letter-spacing:.5px;line-height:1}
+h1 .rb{background:linear-gradient(90deg,#ff5f5f 0%,#ffb03a 25%,#ffe14d 45%,#39c96e 65%,#2fa8e0 82%,#8a5fd6 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-size:1.05rem;color:var(--ink);opacity:.85;font-weight:500}
+.subline{font-size:.85rem;color:var(--ink-soft)}
+.updated{margin-left:auto;text-align:right;font-size:.8rem;color:var(--ink-soft)}
+.updated button{font-family:inherit;font-weight:600;border:none;background:var(--ink);color:#fff;border-radius:20px;padding:8px 16px;cursor:pointer;font-size:.85rem;margin-top:6px}
+.updated button:hover{background:#0b2229}
+
+/* ---------- panels ---------- */
+.panel{background:var(--card);border-radius:18px;padding:16px 18px;margin:14px 0;box-shadow:0 4px 14px rgba(0,40,60,.12)}
+.panel h2{font-size:1.25rem;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.muted{color:var(--ink-soft);font-size:.85rem}
+
+/* riders */
+.riders{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+.rider{background:var(--sand);border-radius:12px;padding:10px 14px;display:flex;gap:10px;align-items:center}
+.rider input[type=text]{width:110px}
+.rider input,.quiver input{font-family:inherit;font-size:.95rem;border:2px solid #e3d9c5;border-radius:8px;padding:6px 8px;background:#fff}
+.rider input[type=number],.quiver input{width:64px}
+.quiver{background:var(--sand);border-radius:12px;padding:10px 14px;display:flex;gap:8px;align-items:center}
+label{font-size:.8rem;color:var(--ink-soft);display:block}
+
+/* now / balises */
+.now-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.beacon{background:var(--sand);border-radius:12px;padding:10px 12px}
+.beacon .b-name{font-weight:600;font-size:.9rem}
+.beacon .b-wind{font-size:1.5rem;font-weight:700}
+.beacon .b-wind small{font-size:.8rem;font-weight:500}
+.beacon .stale{color:#c0392b;font-weight:600}
+.arrow{display:inline-block;font-size:1.1rem}
+
+.top3{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.chip{border-radius:24px;padding:8px 16px;font-weight:600;font-size:.95rem;background:var(--lv2)}
+.chip.no{background:var(--lv0);font-weight:500;color:var(--ink-soft)}
+
+/* windows */
+.windows{display:grid;gap:8px}
+.window{display:flex;gap:12px;align-items:center;background:var(--sand);border-radius:12px;padding:10px 14px;flex-wrap:wrap}
+.window .w-day{font-weight:700;min-width:110px;text-transform:capitalize}
+.window .w-spot{font-weight:600;color:var(--sea-deep)}
+.kbadge{background:var(--ink);color:#fff;border-radius:16px;padding:3px 10px;font-size:.8rem;font-weight:600}
+.kbadge.her{background:#8a5fd6}
+
+/* spot cards */
+.spot{margin:16px 0}
+.spot-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.spot-head h3{font-size:1.3rem}
+.spot-head .area{color:var(--ink-soft);font-size:.85rem}
+.dirtags{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.dirtag{background:var(--sky);border-radius:12px;padding:2px 10px;font-size:.75rem;font-weight:600;color:#0b5666}
+.livebar{display:flex;gap:14px;align-items:center;margin:8px 0;flex-wrap:wrap}
+.livebar .lw{font-size:1.35rem;font-weight:700}
+.grid7{display:grid;grid-template-columns:52px repeat(7,1fr);gap:3px;margin-top:10px}
+.grid7 .gh{font-size:.72rem;text-align:center;color:var(--ink-soft);font-weight:600;text-transform:capitalize}
+.grid7 .gr{font-size:.7rem;color:var(--ink-soft);align-self:center;text-align:right;padding-right:4px}
+.cell{border-radius:6px;height:34px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:600;cursor:pointer;color:#123;position:relative}
+.cell.lv0{background:var(--lv0);color:#9ab}
+.cell.lvdir{background:repeating-linear-gradient(45deg,var(--lvdir),var(--lvdir) 5px,#e9f4f7 5px,#e9f4f7 10px);color:#7a99a4}
+.cell.lv1{background:var(--lv1)}
+.cell.lv2{background:var(--lv2)}
+.cell.lv3{background:var(--lv3);color:#fff}
+.cell.lv4{background:var(--lv4);color:#fff}
+.celldetail{margin-top:8px;font-size:.9rem;background:var(--sand);border-radius:10px;padding:8px 12px;display:none}
+.note{margin-top:10px;font-size:.85rem;color:var(--ink-soft)}
+.note b{color:var(--ink)}
+
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.78rem;align-items:center;margin-top:6px}
+.lg{display:flex;align-items:center;gap:5px}
+.sw{width:16px;height:16px;border-radius:4px;display:inline-block}
+
+footer{color:#eafcff;font-size:.8rem;text-align:center;padding:20px 10px 30px;line-height:1.6}
+footer a{color:#fff}
+.err{background:#fff3f3;border:2px solid var(--lv4);border-radius:12px;padding:10px 14px;margin:10px 0;font-size:.9rem;display:none}
+@media(max-width:640px){.grid7{grid-template-columns:40px repeat(7,1fr)}.cell{height:30px;font-size:.62rem}.mascot{width:96px;height:96px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <!-- Tazz : mascotte tornade originale -->
+  <svg class="mascot" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tazz la mascotte tornade">
+    <defs>
+      <linearGradient id="kite" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#ff5f5f"/><stop offset=".25" stop-color="#ffb03a"/>
+        <stop offset=".5" stop-color="#ffe14d"/><stop offset=".75" stop-color="#39c96e"/>
+        <stop offset="1" stop-color="#8a5fd6"/>
+      </linearGradient>
+    </defs>
+    <!-- aile arc-en-ciel -->
+    <path d="M30 52 Q100 -8 170 52 Q168 62 160 60 Q100 12 40 60 Q32 62 30 52Z" fill="url(#kite)" stroke="#17323a" stroke-width="3"/>
+    <text x="100" y="34" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="15" fill="#17323a" transform="rotate(-2 100 34)">TAZZ</text>
+    <!-- lignes -->
+    <path d="M45 58 L86 106 M155 58 L114 106" stroke="#17323a" stroke-width="2.2" fill="none"/>
+    <!-- corps tornade -->
+    <g stroke="#17323a" stroke-width="3">
+      <ellipse cx="100" cy="150" rx="34" ry="12" fill="#8d6742"/>
+      <ellipse cx="100" cy="163" rx="24" ry="9" fill="#7a5636"/>
+      <ellipse cx="100" cy="174" rx="14" ry="7" fill="#684628"/>
+      <ellipse cx="100" cy="183" rx="7" ry="4.5" fill="#57381e"/>
+    </g>
+    <!-- tête -->
+    <circle cx="100" cy="118" r="34" fill="#9c7248" stroke="#17323a" stroke-width="3"/>
+    <path d="M78 92 q-9 -12 2 -18 q3 9 8 12 M100 86 q0 -15 10 -16 q1 10 -2 15 M120 92 q10 -10 1 -17 q-5 8 -9 11" fill="#7a5636" stroke="#17323a" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- yeux -->
+    <ellipse cx="88" cy="112" rx="10.5" ry="12.5" fill="#fff" stroke="#17323a" stroke-width="2.5"/>
+    <ellipse cx="112" cy="112" rx="10.5" ry="12.5" fill="#fff" stroke="#17323a" stroke-width="2.5"/>
+    <circle cx="90.5" cy="114" r="4.4" fill="#17323a"/><circle cx="109.5" cy="114" r="4.4" fill="#17323a"/>
+    <circle cx="92" cy="112" r="1.5" fill="#fff"/><circle cx="111" cy="112" r="1.5" fill="#fff"/>
+    <!-- museau + sourire + dent -->
+    <ellipse cx="100" cy="131" rx="13" ry="9" fill="#c9a06b" stroke="#17323a" stroke-width="2.5"/>
+    <ellipse cx="100" cy="127" rx="3.4" ry="2.4" fill="#17323a"/>
+    <path d="M92 134 q8 7 16 0" fill="none" stroke="#17323a" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="97" y="134" width="6" height="6" rx="1.5" fill="#fff" stroke="#17323a" stroke-width="1.8"/>
+    <!-- bras + barre -->
+    <path d="M70 128 Q56 118 84 104 M130 128 Q144 118 116 104" fill="none" stroke="#9c7248" stroke-width="9" stroke-linecap="round"/>
+    <path d="M70 128 Q56 118 84 104 M130 128 Q144 118 116 104" fill="none" stroke="#17323a" stroke-width="2" stroke-linecap="round" opacity=".35"/>
+    <rect x="82" y="100" width="36" height="7" rx="3.5" fill="#e84f4f" stroke="#17323a" stroke-width="2.2"/>
+    <!-- éclaboussures -->
+    <g fill="#fff" opacity=".95">
+      <circle cx="62" cy="182" r="4"/><circle cx="140" cy="178" r="5"/><circle cx="150" cy="188" r="3"/><circle cx="52" cy="190" r="3"/>
+    </g>
+  </svg>
+  <div>
+    <h1><span class="rb">TAZZ</span> KITE</h1>
+    <div class="tagline">Le vent décide. Tazz t'envoie. 🌪️</div>
+    <div class="subline">Spots kite autour de Marseille — prévisions 7 jours + vent réel sur balises</div>
+  </div>
+  <div class="updated">
+    <div id="updated">chargement…</div>
+    <button id="refresh">↻ Rafraîchir</button>
+  </div>
+</header>
+
+<div class="err" id="err"></div>
+
+<!-- réglages riders -->
+<div class="panel">
+  <h2>🏄 L'équipage & le quiver</h2>
+  <div class="riders">
+    <div class="rider">🧔
+      <div><label>Prénom</label><input type="text" id="n1" value="Pierre"></div>
+      <div><label>Poids (kg)</label><input type="number" id="w1" value="75" min="35" max="130"></div>
+    </div>
+    <div class="rider">👩
+      <div><label>Prénom</label><input type="text" id="n2" value="Partenaire"></div>
+      <div><label>Poids (kg)</label><input type="number" id="w2" value="50" min="35" max="130"></div>
+    </div>
+    <div class="quiver">🪁
+      <div><label>Aile 1 (m²)</label><input type="number" id="k1" value="5" step="0.5"></div>
+      <div><label>Aile 2 (m²)</label><input type="number" id="k2" value="9" step="0.5"></div>
+      <div><label>Aile 3 (m²)</label><input type="number" id="k3" value="12" step="0.5"></div>
+    </div>
+  </div>
+  <p class="muted" style="margin-top:8px">Le quiver est partagé : quand vous visez la même aile, Tazz arbitre (le plus léger la garde, l'autre prend au-dessus… ou c'est l'alternance ⏳).</p>
+</div>
+
+<!-- maintenant -->
+<div class="panel">
+  <h2>📡 En ce moment sur les balises</h2>
+  <div class="now-grid" id="beacons"></div>
+  <h2 style="margin-top:16px">🎯 Où aller là, tout de suite ?</h2>
+  <div class="top3" id="top-now"></div>
+</div>
+
+<!-- fenêtres -->
+<div class="panel">
+  <h2>🗓️ Quand partir ? Les meilleures fenêtres des 7 prochains jours</h2>
+  <div class="windows" id="windows"></div>
+</div>
+
+<!-- légende -->
+<div class="panel">
+  <h2>🗺️ Les spots, un par un</h2>
+  <div class="legend">
+    <span class="lg"><span class="sw" style="background:var(--lv0)"></span> pétole</span>
+    <span class="lg"><span class="sw" style="background:repeating-linear-gradient(45deg,var(--lvdir),var(--lvdir) 5px,#e9f4f7 5px,#e9f4f7 10px)"></span> du vent, mauvaise direction</span>
+    <span class="lg"><span class="sw" style="background:var(--lv1)"></span> un·e seul·e navigue</span>
+    <span class="lg"><span class="sw" style="background:var(--lv2)"></span> GO à deux</span>
+    <span class="lg"><span class="sw" style="background:var(--lv3)"></span> 🔥 session parfaite</span>
+    <span class="lg"><span class="sw" style="background:var(--lv4)"></span> trop de vent / danger</span>
+  </div>
+  <p class="muted" style="margin-top:6px">Clique une case pour le détail (vent, rafales, ailes conseillées). Prévisions AROME Météo-France (via Open-Meteo) fusionnées avec un modèle global pour J+4 à J+7.</p>
+</div>
+
+<div id="spots"></div>
+
+<footer>
+  Données : <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (AROME / best match) ·
+  METAR <a href="https://aviationweather.gov/" target="_blank" rel="noopener">aviationweather.gov</a> (maj auto toutes les 30 min) ·
+  Balise <a href="http://www.pioupiou.fr/" target="_blank" rel="noopener">Pioupiou</a> La Capte<br>
+  ⚠️ Le kite en side-off (Carro, Jaï côté étang par Mistral) exige autonomie et sécu. Vérifie toujours les arrêtés locaux et les zones de navigation (corridors estivaux).<br>
+  🌪️ TAZZ KITE — fait maison, esprit PragmaForma, mascotte 100 % originale.
+</footer>
+</div>
+
+<script>
+"use strict";
+/* ================= SPOTS ================= */
+const SPOTS=[
+ {id:'jai',name:'Le Jaï',area:'Marignane · étang de Berre',lat:43.4368,lon:5.2192,sectors:[[80,170],[280,345]],metar:['LFML'],dist:2,
+  note:"<b>Le spot-école du coin.</b> Vent d'Est/SE onshore idéal pour progresser, Mistral (NW) très fréquenté mais side-off — plan d'eau fermé donc gérable. Eau peu profonde, fond parfois vaseux."},
+ {id:'berre',name:'Berre Plage',area:"Berre-l'Étang",lat:43.4623,lon:5.1740,sectors:[[100,200]],metar:['LFML'],dist:7,
+  note:"Plan B malin par vent de <b>Sud/SE</b> quand la mer est en vrac : plan d'eau plat de l'étang, spot tranquille."},
+ {id:'carro',name:'Carro',area:'La Couronne · Côte Bleue',lat:43.3286,lon:5.0413,sectors:[[200,340]],metar:['LFML','LFMI'],dist:18,
+  note:"<b>LE spot de Mistral en mer</b> : NW side-off avec vagues — réservé aux autonomes (prévois la sécu, ça part au large). SW onshore plus accessible."},
+ {id:'stecroix',name:'Sainte-Croix',area:'La Couronne / Martigues',lat:43.3312,lon:5.0777,sectors:[[160,260]],metar:['LFML','LFMI'],dist:17,
+  note:"Jolie baie orientée <b>Sud</b> : marche par vent marin S/SW onshore. Petite plage, blindée l'été — vise le matin."},
+ {id:'laurons',name:'Les Laurons',area:'Martigues',lat:43.3690,lon:5.0120,sectors:[[220,300]],metar:['LFMI','LFML'],dist:12,
+  note:"Alternative par <b>W/SW</b>. Petit spot, mise à l'eau technique, peu de monde."},
+ {id:'napoleon',name:'Plage Napoléon',area:'Port-Saint-Louis-du-Rhône',lat:43.3480,lon:4.8680,sectors:[[270,30],[100,160]],metar:['LFMI'],dist:20,
+  note:"<b>L'autoroute du Mistral</b> : N/NW side-shore sur des kilomètres de sable. Marche aussi par SE. Le spot fiable quand ça souffle fort — de la place pour tout le monde."},
+ {id:'beauduc',name:'Beauduc',area:'Camargue · Salin-de-Giraud',lat:43.3626,lon:4.5660,sectors:[[120,340]],metar:['LFMI'],dist:33,
+  note:"<b>Le paradis.</b> Immense plage, lagunes flat, marche par quasi tout vent marin (SE→W) + Mistral side. Piste défoncée : 4×4 conseillé, et balise météo lointaine → fie-toi au modèle + webcams."},
+ {id:'ciotat',name:'La Ciotat',area:'Baie des Capucins',lat:43.1745,lon:5.6060,sectors:[[70,170]],metar:['LFMQ','LFTH'],dist:16,
+  note:"Marche par <b>vent d'Est/SE</b> (le « marin »). Baie abritée du Mistral — c'est ici quand tout le monde pleure à l'Ouest."},
+ {id:'sixfours',name:'Six-Fours',area:'Bonnegrâce / Brutal Beach',lat:43.0967,lon:5.8288,sectors:[[240,330]],metar:['LFTH','LFMQ'],dist:24,
+  note:"Temple du <b>vent d'Ouest/Mistral onshore</b> : ça rentre fort, clapot musclé — la 5 m² sort souvent. Corridors kite réglementés l'été."},
+ {id:'almanarre',name:"L'Almanarre",area:"Hyères · presqu'île de Giens",lat:43.0870,lon:6.1130,sectors:[[210,330]],metar:['LFTH'],pioupiou:2133,dist:3,
+  note:"<b>La grande classique</b> : Mistral W/NW side-on, longue plage, thermique d'été l'après-midi. Balise Pioupiou de La Capte (côté Est de Giens) en direct."},
+];
+const METAR_NAMES={LFML:'Marignane (aéroport MP)',LFMI:'Istres-Le Tubé',LFMQ:'Le Castellet',LFTH:'Toulon-Hyères'};
+const SLOTS=[[8,11,'matin'],[11,14,'midi'],[14,17,'a.midi'],[17,20,'soir']];
+const DAYFMT=new Intl.DateTimeFormat('fr-FR',{weekday:'short',day:'numeric'});
+const DAYLONG=new Intl.DateTimeFormat('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+
+/* ================= réglages ================= */
+const $=id=>document.getElementById(id);
+const SKEY='tazz-kite-settings';
+function loadSettings(){try{const s=JSON.parse(localStorage.getItem(SKEY)||'{}');for(const k of['n1','w1','n2','w2','k1','k2','k3'])if(s[k]!=null)$(k).value=s[k];}catch(e){}}
+function saveSettings(){const s={};for(const k of['n1','w1','n2','w2','k1','k2','k3'])s[k]=$(k).value;localStorage.setItem(SKEY,JSON.stringify(s));}
+function cfg(){
+  const q=[+$('k1').value,+$('k2').value,+$('k3').value].filter(v=>v>0).sort((a,b)=>a-b);
+  return {n1:$('n1').value||'Rider 1',w1:+$('w1').value||75,n2:$('n2').value||'Rider 2',w2:+$('w2').value||50,quiver:q};
+}
+
+/* ================= logique ailes ================= */
+const centerKn=(w,s)=>2.175*w/s;
+function usable(w,s,kn){const c=centerKn(w,s);return kn>=Math.max(6.5,.75*c)&&kn<=1.45*c;}
+function pick(w,kn,quiver){let best=null,bs=1e9;for(const s of quiver){if(!usable(w,s,kn))continue;const c=centerKn(w,s),d=Math.abs(kn-c)/c;if(d<bs){bs=d;best=s;}}return best;}
+function assign(kn,c){
+  let a=pick(c.w1,kn,c.quiver),b=pick(c.w2,kn,c.quiver),shared=false;
+  if(a&&b&&a===b){
+    const bigger=c.quiver.filter(s=>s>a&&usable(c.w1,s,kn));
+    if(bigger.length)a=bigger[0];
+    else{const smaller=c.quiver.filter(s=>s<b&&usable(c.w2,s,kn));
+      if(smaller.length)b=smaller[smaller.length-1];else shared=true;}
+  }
+  return{a,b,shared};
+}
+function kiteText(as,c){
+  if(as.shared)return `⏳ alternance sur la ${as.a} m²`;
+  const p=[];if(as.a)p.push(`${c.n1} ${as.a} m²`);if(as.b)p.push(`${c.n2} ${as.b} m²`);
+  return p.length?p.join(' · '):'trop léger pour le quiver';
+}
+
+/* ================= direction ================= */
+const CARD=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSO','SO','OSO','O','ONO','NO','NNO'];
+const card=d=>CARD[Math.round(((d%360)+360)%360/22.5)%16];
+const arrow=d=>`<span class="arrow" style="transform:rotate(${(d+180)%360}deg);display:inline-block">↑</span>`;
+function inSectors(dir,sectors){
+  dir=((dir%360)+360)%360;
+  return sectors.some(([a,b])=>a<=b?(dir>=a&&dir<=b):(dir>=a||dir<=b));
+}
+const sectorLabel=([a,b])=>`${card(a)}→${card(b)}`;
+
+/* ================= niveau d'une heure ================= */
+function levelAt(kn,gust,dir,spot,c){
+  if(kn==null)return{lv:'lv0',txt:'pas de donnée'};
+  if(kn<6.5)return{lv:'lv0',txt:'pétole'};
+  const dirOk=dir==null?true:inSectors(dir,spot.sectors);
+  if(!dirOk)return{lv:'lvdir',txt:`du vent (${Math.round(kn)} nds) mais mauvaise direction (${card(dir)})`};
+  if(kn>=38||(gust&&gust>=46))return{lv:'lv4',txt:'⛔ tempête — on range tout'};
+  const as=assign(kn,c);
+  const riders=(as.a?1:0)+(as.b?1:0)-(as.shared?1:0);
+  if(riders<=0)return{lv:'lv0',txt:'trop léger pour le quiver'};
+  if(riders===1||as.shared)return{lv:'lv1',txt:kiteText(as,c),as};
+  const gustFactor=gust?gust/kn:1;
+  const prime=kn>=13&&kn<=30&&gustFactor<1.8;
+  return{lv:prime?'lv3':'lv2',txt:kiteText(as,c),as};
+}
+const LVSCORE={lv0:0,lvdir:0,lv1:1,lv2:2,lv3:3,lv4:-1};
+
+/* ================= fetch ================= */
+let FC=null,METAR=null,PIOU=null;
+async function fetchAll(){
+  const lats=SPOTS.map(s=>s.lat).join(','),lons=SPOTS.map(s=>s.lon).join(',');
+  const base=`latitude=${lats}&longitude=${lons}&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m&wind_speed_unit=kn&timezone=Europe%2FParis`;
+  const jobs=[
+    fetch(`https://api.open-meteo.com/v1/forecast?${base}&forecast_days=7`).then(r=>r.json()),
+    fetch(`https://api.open-meteo.com/v1/forecast?${base}&models=meteofrance_seamless&forecast_days=4`).then(r=>r.json()).catch(()=>null),
+    fetch(`data/metar.json?t=${Math.floor(Date.now()/6e5)}`).then(r=>r.ok?r.json():null).catch(()=>null),
+    fetch('https://api.pioupiou.fr/v1/live-with-meta/2133').then(r=>r.json()).catch(()=>null),
+  ];
+  const[bm,mf,metar,piou]=await Promise.all(jobs);
+  const arr=x=>Array.isArray(x)?x:[x];
+  FC=arr(bm).map((b,i)=>{
+    const h={time:b.hourly.time,ws:b.hourly.wind_speed_10m.slice(),wg:b.hourly.wind_gusts_10m.slice(),wd:b.hourly.wind_direction_10m.slice()};
+    const m=mf?arr(mf)[i]:null;
+    if(m&&m.hourly)for(let t=0;t<m.hourly.time.length&&t<h.time.length;t++){
+      if(m.hourly.wind_speed_10m[t]!=null){h.ws[t]=m.hourly.wind_speed_10m[t];h.wg[t]=m.hourly.wind_gusts_10m[t]??h.wg[t];h.wd[t]=m.hourly.wind_direction_10m[t]??h.wd[t];}
+    }
+    return h;
+  });
+  METAR={};
+  if(metar)for(const m of metar){
+    const t=m.obsTime?new Date(m.obsTime*1000):new Date(String(m.reportTime).replace(' ','T'));
+    METAR[m.icaoId]={kn:m.wspd,gust:m.wgst,dir:(typeof m.wdir==='number')?m.wdir:null,time:t};
+  }
+  PIOU=null;
+  if(piou&&piou.data&&piou.data.measurements){
+    const ms=piou.data.measurements;
+    PIOU={kn:ms.wind_speed_avg/1.852,gust:ms.wind_speed_max/1.852,dir:ms.wind_heading,time:new Date(ms.date),name:(piou.data.meta&&piou.data.meta.name)||'Pioupiou 2133'};
+  }
+}
+
+/* ================= live par spot ================= */
+function liveFor(spot){
+  if(spot.pioupiou&&PIOU)return{...PIOU,src:'Pioupiou La Capte',dist:spot.dist};
+  for(const st of spot.metar){const m=METAR&&METAR[st];if(m&&m.kn!=null)return{...m,src:METAR_NAMES[st]||st,dist:spot.dist};}
+  return null;
+}
+const ageMin=t=>Math.round((Date.now()-t.getTime())/6e4);
+function ageTxt(t){const a=ageMin(t);return a<90?`il y a ${a} min`:`il y a ${Math.round(a/60)} h`;}
+
+/* ================= rendu ================= */
+function render(){
+  const c=cfg();
+  renderBeacons(c);renderTopNow(c);renderWindows(c);renderSpots(c);
+  $('updated').textContent='Mis à jour à '+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+}
+
+function renderBeacons(){
+  const seen=new Set(),out=[];
+  for(const spot of SPOTS){
+    const key=spot.pioupiou?'PIOU':spot.metar[0];
+    if(seen.has(key))continue;seen.add(key);
+    const l=spot.pioupiou&&PIOU?{...PIOU,src:'Pioupiou La Capte (Giens Est)'}:(METAR&&METAR[spot.metar[0]]?{...METAR[spot.metar[0]],src:METAR_NAMES[spot.metar[0]]}:null);
+    if(!l){out.push(`<div class="beacon"><div class="b-name">${key==='PIOU'?'Pioupiou La Capte':METAR_NAMES[spot.metar[0]]}</div><div class="muted">hors service / pas de donnée 😴</div></div>`);continue;}
+    const stale=ageMin(l.time)>120;
+    out.push(`<div class="beacon">
+      <div class="b-name">${l.src}</div>
+      <div class="b-wind">${Math.round(l.kn)} <small>nds</small> ${l.gust?`<small>(raf. ${Math.round(l.gust)})</small>`:''} ${l.dir!=null?arrow(l.dir)+' <small>'+card(l.dir)+'</small>':''}</div>
+      <div class="muted ${stale?'stale':''}">${ageTxt(l.time)}${stale?' ⚠️ ancienne':''}</div>
+    </div>`);
+  }
+  $('beacons').innerHTML=out.join('');
+}
+
+function nowVerdict(spot,c){
+  const l=liveFor(spot);
+  const t=FC?FC[SPOTS.indexOf(spot)]:null;
+  const hIdx=t?nearestHourIdx(t):-1;
+  const kn=l?l.kn:(hIdx>=0?t.ws[hIdx]:null);
+  const dir=(l&&l.dir!=null)?l.dir:(hIdx>=0?t.wd[hIdx]:null);
+  const gust=l?l.gust:(hIdx>=0?t.wg[hIdx]:null);
+  if(kn==null)return null;
+  const lvl=levelAt(kn,gust,dir,spot,c);
+  return{spot,kn,dir,lvl,score:LVSCORE[lvl.lv]*100+Math.min(kn,32)};
+}
+function nearestHourIdx(t){
+  const now=Date.now();let best=-1,bd=1e15;
+  for(let i=0;i<t.time.length;i++){const d=Math.abs(new Date(t.time[i]).getTime()-now);if(d<bd){bd=d;best=i;}}
+  return best;
+}
+function renderTopNow(c){
+  const v=SPOTS.map(s=>nowVerdict(s,c)).filter(Boolean).sort((a,b)=>b.score-a.score);
+  const good=v.filter(x=>LVSCORE[x.lvl.lv]>0).slice(0,3);
+  $('top-now').innerHTML=good.length
+    ?good.map(x=>`<span class="chip">${x.spot.name} — ${Math.round(x.kn)} nds ${x.dir!=null?card(x.dir):''} → ${x.lvl.txt}</span>`).join('')
+    :`<span class="chip no">Rien de navigable là tout de suite… Tazz retourne à la sieste 😴 (meilleure option : voir les fenêtres ci-dessous)</span>`;
+}
+
+/* fenêtres 7 jours */
+function slotData(t,dayStart,h1,h2){
+  let ws=[],wg=[],wd=[];
+  for(let i=0;i<t.time.length;i++){
+    const d=new Date(t.time[i]);
+    if(d>=dayStart){const h=d.getHours();
+      if(d.toDateString()===dayStart.toDateString()&&h>=h1&&h<h2){ws.push(t.ws[i]);wg.push(t.wg[i]);wd.push(t.wd[i]);}}
+  }
+  ws=ws.filter(x=>x!=null);if(!ws.length)return null;
+  const avg=a=>a.reduce((x,y)=>x+y,0)/a.length;
+  return{kn:avg(ws),gust:Math.max(...wg.filter(x=>x!=null),0)||null,dir:avg(wd.filter(x=>x!=null))};
+}
+function allWindows(c){
+  const out=[],today=new Date();today.setHours(0,0,0,0);
+  for(let d=0;d<7;d++){
+    const day=new Date(today.getTime()+d*864e5);
+    for(const[h1,h2,label]of SLOTS){
+      const end=new Date(day);end.setHours(h2,0,0,0);
+      if(end<new Date())continue;
+      for(const spot of SPOTS){
+        const t=FC[SPOTS.indexOf(spot)];
+        const sd=slotData(t,day,h1,h2);if(!sd)continue;
+        const lvl=levelAt(sd.kn,sd.gust,sd.dir,spot,c);
+        out.push({spot,day,d,label,h1,h2,sd,lvl,score:LVSCORE[lvl.lv]});
+      }
+    }
+  }
+  return out;
+}
+function renderWindows(c){
+  const wins=allWindows(c).filter(w=>w.score>=2);
+  const byDay=new Map();
+  for(const w of wins){
+    const k=w.d+'-'+w.label;
+    const cur=byDay.get(k);
+    if(!cur||w.score>cur.score||(w.score===cur.score&&w.sd.kn>cur.sd.kn))byDay.set(k,w);
+  }
+  const best=[...byDay.values()].sort((a,b)=>a.d-b.d||a.h1-b.h1).slice(0,10);
+  $('windows').innerHTML=best.length?best.map(w=>`
+    <div class="window">
+      <span class="w-day">${DAYFMT.format(w.day)} ${w.label}</span>
+      <span class="w-spot">📍 ${w.spot.name}</span>
+      <span>${Math.round(w.sd.kn)} nds ${card(w.sd.dir)} ${w.sd.gust?`(raf. ${Math.round(w.sd.gust)})`:''} ${w.lvl.lv==='lv3'?'🔥':''}</span>
+      ${w.lvl.as&&w.lvl.as.a?`<span class="kbadge">${c.n1} · ${w.lvl.as.a} m²</span>`:''}
+      ${w.lvl.as&&w.lvl.as.b?`<span class="kbadge her">${c.n2} · ${w.lvl.as.b} m²</span>`:''}
+      ${w.lvl.as&&w.lvl.as.shared?`<span class="kbadge">⏳ alternance ${w.lvl.as.a} m²</span>`:''}
+    </div>`).join('')
+   :`<div class="muted">Aucune fenêtre « GO à deux » sur 7 jours 😢 — regarde les cases jaunes (solo) sur les spots ci-dessous.</div>`;
+}
+
+/* cartes spots */
+function renderSpots(c){
+  const today=new Date();today.setHours(0,0,0,0);
+  $('spots').innerHTML=SPOTS.map((spot,si)=>{
+    const t=FC[si],l=liveFor(spot);
+    const live=l?`<span class="lw">${Math.round(l.kn)} nds</span> ${l.gust?`raf. ${Math.round(l.gust)}`:''} ${l.dir!=null?arrow(l.dir)+' '+card(l.dir):''}
+      <span class="muted">${l.src} · à ${l.dist} km · ${ageTxt(l.time)}</span>`
+      :`<span class="muted">pas de balise dispo → modèle uniquement</span>`;
+    let head=`<div class="gh"></div>`+[...Array(7)].map((_,d)=>`<div class="gh">${DAYFMT.format(new Date(today.getTime()+d*864e5))}</div>`).join('');
+    let rows='';
+    for(const[h1,h2,label]of SLOTS){
+      rows+=`<div class="gr">${label}</div>`;
+      for(let d=0;d<7;d++){
+        const day=new Date(today.getTime()+d*864e5);
+        const sd=slotData(t,day,h1,h2);
+        if(!sd){rows+=`<div class="cell lv0"></div>`;continue;}
+        const lvl=levelAt(sd.kn,sd.gust,sd.dir,spot,c);
+        const detail=`${DAYLONG.format(day)} ${label} (${h1}h-${h2}h) — ${Math.round(sd.kn)} nds ${card(sd.dir)}${sd.gust?`, raf. ${Math.round(sd.gust)}`:''} → ${lvl.txt}`;
+        rows+=`<div class="cell ${lvl.lv}" data-detail="${detail.replace(/"/g,'&quot;')}" title="${detail.replace(/"/g,'&quot;')}">${Math.round(sd.kn)}</div>`;
+      }
+    }
+    return `<div class="panel spot" id="spot-${spot.id}">
+      <div class="spot-head">
+        <h3>${spot.name}</h3><span class="area">${spot.area}</span>
+        <div class="dirtags">${spot.sectors.map(s=>`<span class="dirtag">✅ ${sectorLabel(s)}</span>`).join('')}</div>
+      </div>
+      <div class="livebar">📡 ${live}</div>
+      <div class="grid7">${head}${rows}</div>
+      <div class="celldetail" id="detail-${spot.id}"></div>
+      <div class="note">${spot.note}</div>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('.cell[data-detail]').forEach(cell=>{
+    cell.addEventListener('click',()=>{
+      const panel=cell.closest('.spot').querySelector('.celldetail');
+      panel.textContent='🪁 '+cell.dataset.detail;panel.style.display='block';
+    });
+  });
+}
+
+/* ================= boot ================= */
+async function boot(){
+  $('err').style.display='none';
+  try{
+    await fetchAll();render();
+  }catch(e){
+    $('err').textContent='Aïe, impossible de charger les données ('+e.message+'). Réessaie dans une minute.';
+    $('err').style.display='block';console.error(e);
+  }
+}
+loadSettings();
+for(const k of['n1','w1','n2','w2','k1','k2','k3'])$(k).addEventListener('input',()=>{saveSettings();if(FC)render();});
+$('refresh').addEventListener('click',boot);
+setInterval(boot,10*60*1000);
+boot();
+</script>
+</body>
+</html>
